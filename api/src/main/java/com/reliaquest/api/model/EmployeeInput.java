@@ -6,8 +6,7 @@ public class EmployeeInput {
     private int age;
     private String title;
 
-    public EmployeeInput() {
-    }
+    public EmployeeInput() {}
 
     public EmployeeInput(String name, int salary, int age, String title) {
         this.name = name;

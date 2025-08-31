@@ -1,21 +1,20 @@
 package com.reliaquest.api.service;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
 import com.reliaquest.api.exception.EmployeeNotFoundException;
 import com.reliaquest.api.exception.InvalidUUIDException;
 import com.reliaquest.api.model.Employee;
 import com.reliaquest.api.model.EmployeeInput;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
 import org.springframework.http.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-
-import java.nio.charset.StandardCharsets;
-import java.util.*;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 class EmployeeServiceTest {
 
@@ -81,11 +80,9 @@ class EmployeeServiceTest {
                 "404 Not Found",
                 HttpHeaders.EMPTY,
                 "".getBytes(StandardCharsets.UTF_8),
-                StandardCharsets.UTF_8
-        );
+                StandardCharsets.UTF_8);
 
-        when(restTemplate.getForEntity(contains(uuid), eq(Map.class)))
-                .thenThrow(notFoundException);
+        when(restTemplate.getForEntity(contains(uuid), eq(Map.class))).thenThrow(notFoundException);
 
         assertThrows(EmployeeNotFoundException.class, () -> employeeService.getEmployeeById(uuid));
     }
@@ -116,7 +113,8 @@ class EmployeeServiceTest {
         mockResponseBody.put("data", data);
         ResponseEntity<Map> response = new ResponseEntity<>(mockResponseBody, HttpStatus.OK);
 
-        when(restTemplate.postForEntity(anyString(), any(HttpEntity.class), eq(Map.class))).thenReturn(response);
+        when(restTemplate.postForEntity(anyString(), any(HttpEntity.class), eq(Map.class)))
+                .thenReturn(response);
 
         Employee emp = employeeService.createEmployee(input);
         assertEquals("Carol", emp.getEmployee_name());
@@ -186,21 +184,31 @@ class EmployeeServiceTest {
     void getHighestSalary_shouldReturnMaxSalary() {
         List<Map<String, Object>> employeesData = new ArrayList<>();
         employeesData.add(Map.of(
-                "id", UUID.randomUUID().toString(),
-                "employee_name", "John",
-                "employee_salary", 7000,
-                "employee_age", 30,
-                "employee_title", "Dev",
-                "employee_email", "john@example.com"
-        ));
+                "id",
+                UUID.randomUUID().toString(),
+                "employee_name",
+                "John",
+                "employee_salary",
+                7000,
+                "employee_age",
+                30,
+                "employee_title",
+                "Dev",
+                "employee_email",
+                "john@example.com"));
         employeesData.add(Map.of(
-                "id", UUID.randomUUID().toString(),
-                "employee_name", "Jane",
-                "employee_salary", 9000,
-                "employee_age", 35,
-                "employee_title", "Manager",
-                "employee_email", "jane@example.com"
-        ));
+                "id",
+                UUID.randomUUID().toString(),
+                "employee_name",
+                "Jane",
+                "employee_salary",
+                9000,
+                "employee_age",
+                35,
+                "employee_title",
+                "Manager",
+                "employee_email",
+                "jane@example.com"));
 
         Map<String, Object> mockResponseBody = new HashMap<>();
         mockResponseBody.put("data", employeesData);
@@ -216,21 +224,31 @@ class EmployeeServiceTest {
     void searchEmployeesByName_shouldReturnMatching() {
         List<Map<String, Object>> employeesData = new ArrayList<>();
         employeesData.add(Map.of(
-                "id", UUID.randomUUID().toString(),
-                "employee_name", "Alice Smith",
-                "employee_salary", 7000,
-                "employee_age", 29,
-                "employee_title", "Engineer",
-                "employee_email", "alice@example.com"
-        ));
+                "id",
+                UUID.randomUUID().toString(),
+                "employee_name",
+                "Alice Smith",
+                "employee_salary",
+                7000,
+                "employee_age",
+                29,
+                "employee_title",
+                "Engineer",
+                "employee_email",
+                "alice@example.com"));
         employeesData.add(Map.of(
-                "id", UUID.randomUUID().toString(),
-                "employee_name", "Bob Johnson",
-                "employee_salary", 6500,
-                "employee_age", 35,
-                "employee_title", "QA",
-                "employee_email", "bob@example.com"
-        ));
+                "id",
+                UUID.randomUUID().toString(),
+                "employee_name",
+                "Bob Johnson",
+                "employee_salary",
+                6500,
+                "employee_age",
+                35,
+                "employee_title",
+                "QA",
+                "employee_email",
+                "bob@example.com"));
 
         Map<String, Object> mockResponseBody = new HashMap<>();
         mockResponseBody.put("data", employeesData);

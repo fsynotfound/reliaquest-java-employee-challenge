@@ -5,4 +5,3 @@ public class InvalidUUIDException extends RuntimeException {
         super(message);
     }
 }
-
